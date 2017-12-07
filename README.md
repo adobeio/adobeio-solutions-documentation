@@ -1,5 +1,5 @@
 # Adobe-I/O-Solution-Documentation
-<div style="text-align: right"> ![adobeio_instagram_profile_icon](https://user-images.githubusercontent.com/29133525/33696452-8ad02254-dabf-11e7-9dc4-9c44d5942317.png) </div>
+<div style="inmage-align: right"> ![adobeio_instagram_profile_icon](https://user-images.githubusercontent.com/29133525/33696452-8ad02254-dabf-11e7-9dc4-9c44d5942317.png) </div>
    
 
 Adobe I/O solutions provide opportunities for partners and developers to integrate, extend, or create apps and experiences based on Adobe's products and technologies. Adobe I/O solutions demonstrate these capabilities with working use cases and documentation so that you can follow along and re-create them yourself.  
