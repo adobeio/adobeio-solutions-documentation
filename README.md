@@ -20,4 +20,18 @@ Adobe I/O services include the following:
 
 ## Solutions
 
+Set up Adobe Experience Manager for Adobe I/O Events
+
+Integrate Analytics Triggers with Adobe I/O Events
+
+Use Adobe I/O, Target, Launch, and Triggers to Customize Site Experiences for Repeat Users
+
+Use Adobe I/O to integrate Microsoft Dynamics with Triggers and Campaign
+
+Adobe Campaign API Playground
+
+
+
+
+
 
