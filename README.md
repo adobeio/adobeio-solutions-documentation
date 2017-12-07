@@ -1,4 +1,5 @@
-# Adobe-I/O-Solution-Documentation          ![adobeio_01](https://user-images.githubusercontent.com/29133525/33696237-7ffe6b20-dabe-11e7-81dd-d87430eeec22.jpg)
+# Adobe-I/O-Solution-Documentation              ![adobeio_medium_profile_icon](https://user-images.githubusercontent.com/29133525/33696410-5e83c93a-dabf-11e7-8be0-195d76aaca74.png)
+
 
 
 
