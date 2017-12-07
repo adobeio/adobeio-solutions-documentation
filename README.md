@@ -1,6 +1,5 @@
 # Adobe-I/O-Solution-Documentation
 
-<img style="float: right;" alt="Adobe I/O Icon" src="(https://user-images.githubusercontent.com/29133525/33696452-8ad02254-dabf-11e7-9dc4-9c44d5942317.png)" />
 <div style="clear: right">
    ![adobeio_instagram_profile_icon](https://user-images.githubusercontent.com/29133525/33696452-8ad02254-dabf-11e7-9dc4-9c44d5942317.png) 
 </div>    
