@@ -431,7 +431,7 @@ To watch the solution work, you can test the cart abandonment and advertisement 
       ![custom ad banner done](https://user-images.githubusercontent.com/29133525/35831651-b82cbf8a-0a87-11e8-9929-7856fff3a09d.png)
 
 ## Authors
-- Hiren Shah [@hirenshah111](https://github.com/hirenshah111).
+- Hiren Shah [@hirenoble](https://github.com/hirenoble).
 - John Wight [@johnwight](https://github.com/johnwight).
 
 
