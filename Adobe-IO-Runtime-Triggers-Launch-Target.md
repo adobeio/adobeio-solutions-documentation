@@ -165,83 +165,77 @@ In this solution, you can deploy the following script to handle Triggers I/O Eve
 
 **webhook.js**
 ```
-
 function main(args) {
-    var method = args.__ow_method;
- 
-    if (method == "get") {
-        var res = args.__ow_query.split("challenge=");
-        var challenge = res[1];
-        if (challenge)
-            console.log("got challenge: " + challenge);
-        else
-            console.log("no challenge");
- 
-        return {
-            body: challenge
-        }
-    }
- 
-    if (method == "post") {
-        var body = new Buffer(args.__ow_body, 'base64');
-        var jSon = JSON.parse(body);
-        var mcId = jSon.event["com.adobe.mcloud.pipeline.pipelineMessage"]["com.adobe.mcloud.protocol.trigger"].mcId;
-        var index = jSon.event["com.adobe.mcloud.pipeline.pipelineMessage"]["com.adobe.mcloud.protocol.trigger"].enrichments.analyticsHitSummary.dimensions.eVar5.data.length - 1;
-        var pcId = jSon.event["com.adobe.mcloud.pipeline.pipelineMessage"]["com.adobe.mcloud.protocol.trigger"].enrichments.analyticsHitSummary.dimensions.eVar3.data[index];
-        var trPrices = jSon.event["com.adobe.mcloud.pipeline.pipelineMessage"]["com.adobe.mcloud.protocol.trigger"].enrichments.analyticsHitSummary.dimensions.eVar4.data[index].split("|")[0];
-        var trProducts = jSon.event["com.adobe.mcloud.pipeline.pipelineMessage"]["com.adobe.mcloud.protocol.trigger"].enrichments.analyticsHitSummary.dimensions.eVar5.data[index].split("|")[0];
-        var trLink = jSon.event["com.adobe.mcloud.pipeline.pipelineMessage"]["com.adobe.mcloud.protocol.trigger"].enrichments.analyticsHitSummary.dimensions.eVar6.data[index].split("|")[0];
-        var trThumb = jSon.event["com.adobe.mcloud.pipeline.pipelineMessage"]["com.adobe.mcloud.protocol.trigger"].enrichments.analyticsHitSummary.dimensions.eVar7.data[index].split("|")[0];
-        var trOffer = "5";
-        var trCoupon = "ADBETGT5OFF";
- 
-        //Additional 5% off, if product price is more than $100
-        if (trPrices > 100) {
-            trOffer = "10";
-            trCoupon = "ADBETGT10OFF";
-        }
- 
-        console.log("webhook invoked with: " + body);
- 
-        var fs = require('fs');
-        var request = require('request');
-        var file = pcId + ".txt";
-        var content = "batch=pcId,mcId,trProducts,trPrices,trLink,trThumb,trOffer,trCoupon\n"
-                       + pcId + "," + mcId + "," + trProducts + "," + trPrices + "," + trLink + "," + trThumb + "," + trOffer + "," + trCoupon;
- 
-        return new Promise(function(resolve, reject) {
-            try {
-                fs.writeFileSync(file, content);
-            } catch (e) {
-                console.log("Cannot write file ", e);
-            }
- 
-            try {
-                var data = fs.readFileSync(file);
-                console.log("Sending:" + data);
-            } catch (e) {
-                console.log("Cannot read file ", e);
-            }
- 
-            var options = {
-                url: 'http://<your_client_id>.tt.omtrdc.net/m2/<your_client_id>/v2/profile/batchUpdate',
-                headers: {
-                    "content-type": "application/x-www-form-urlencoded",
-                    "Authorization": "Bearer <target_authorization_code>"
-                }
-            }
-            fs.createReadStream(file, {encoding: 'utf-8'}).pipe(request.post(options, function(err, message, res) {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve({body: res});
-                }
-            }));
- 
-        });
-    }
-}
 
+    if (args.challenge) {
+        return {
+            statusCode: 200,
+            body: args.challenge
+        };
+
+    }
+
+
+    var jSon = args;
+    var mcId = jSon.event["com.adobe.mcloud.pipeline.pipelineMessage"]["com.adobe.mcloud.protocol.trigger"].mcId;
+    var index = jSon.event["com.adobe.mcloud.pipeline.pipelineMessage"]["com.adobe.mcloud.protocol.trigger"].enrichments.analyticsHitSummary.dimensions.eVar5.data.length - 1;
+    var pcId = jSon.event["com.adobe.mcloud.pipeline.pipelineMessage"]["com.adobe.mcloud.protocol.trigger"].enrichments.analyticsHitSummary.dimensions.eVar3.data[index];
+    var trPrices = jSon.event["com.adobe.mcloud.pipeline.pipelineMessage"]["com.adobe.mcloud.protocol.trigger"].enrichments.analyticsHitSummary.dimensions.eVar4.data[index].split("|")[0];
+    var trProducts = jSon.event["com.adobe.mcloud.pipeline.pipelineMessage"]["com.adobe.mcloud.protocol.trigger"].enrichments.analyticsHitSummary.dimensions.eVar5.data[index].split("|")[0];
+    var trLink = jSon.event["com.adobe.mcloud.pipeline.pipelineMessage"]["com.adobe.mcloud.protocol.trigger"].enrichments.analyticsHitSummary.dimensions.eVar6.data[index].split("|")[0];
+    var trThumb = jSon.event["com.adobe.mcloud.pipeline.pipelineMessage"]["com.adobe.mcloud.protocol.trigger"].enrichments.analyticsHitSummary.dimensions.eVar7.data[index].split("|")[0];
+    var trOffer = "5";
+    var trCoupon = "ADBETGT5OFF";
+
+    //Additional 5% off, if product price is more than $100
+    if (trPrices > 100) {
+        trOffer = "10";
+        trCoupon = "ADBETGT10OFF";
+    }
+
+    console.log("webhook invoked with: " + body);
+
+    var fs = require('fs');
+    var request = require('request');
+    var file = pcId + ".txt";
+    var content = "batch=pcId,mcId,trProducts,trPrices,trLink,trThumb,trOffer,trCoupon\n" +
+        pcId + "," + mcId + "," + trProducts + "," + trPrices + "," + trLink + "," + trThumb + "," + trOffer + "," + trCoupon;
+
+    return new Promise(function (resolve, reject) {
+        try {
+            fs.writeFileSync(file, content);
+        } catch (e) {
+            console.log("Cannot write file ", e);
+        }
+
+        try {
+            var data = fs.readFileSync(file);
+            console.log("Sending:" + data);
+        } catch (e) {
+            console.log("Cannot read file ", e);
+        }
+
+        var options = {
+            url: 'http://<your_client_id>.tt.omtrdc.net/m2/<your_client_id>/v2/profile/batchUpdate',
+            headers: {
+                "content-type": "application/x-www-form-urlencoded",
+                "Authorization": "Bearer <target_authorization_code>"
+            }
+        }
+        fs.createReadStream(file, {
+            encoding: 'utf-8'
+        }).pipe(request.post(options, function (err, message, res) {
+            if (err) {
+                reject(err);
+            } else {
+                resolve({
+                    body: res
+                });
+            }
+        }));
+
+    });
+}
 ```
 
 To deploy the webhook.js and create a web action, enter the following commands:
@@ -250,7 +244,7 @@ To deploy the webhook.js and create a web action, enter the following commands:
 wsk action create runtime webhook.js
 ```
 ```
-wsk action update runtime --web raw
+wsk action update runtime --web true
 ```
 
 After entering the commands, the web action is accessible at the following location:
