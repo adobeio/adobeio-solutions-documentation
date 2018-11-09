@@ -184,54 +184,44 @@ In this solution, you can deploy the following script to handle Triggers I/O Eve
 **webhook.js**
 ```
 var request = require('request');
- 
+
 function main(args) {
- 
-  var method = args.__ow_method;
- 
-  if (method == "get") {
-    var res = args.__ow_query.split("challenge=");
-    var challenge = res[1];
-    if (challenge)
-    console.log("got challenge: " + challenge);
-    else
-    console.log("no challenge");
- 
-    return {
-      body: challenge
-    }
-  }
- 
-    if (method == "post") {
-      try{
-        var body = new Buffer(args.__ow_body, 'base64');
-        console.log("Message Body:"+body);
-        var jSon = JSON.parse(body);
+
+    if (args.challenge)
+        return {
+            statusCode: 200,
+            body: args.challenge
+        };
+
+
+    try {
+        var jSon = args;
         var mcId = jSon.event["com.adobe.mcloud.pipeline.pipelineMessage"]["com.adobe.mcloud.protocol.trigger"].mcId;
         var index = jSon.event["com.adobe.mcloud.pipeline.pipelineMessage"]["com.adobe.mcloud.protocol.trigger"].enrichments.analyticsHitSummary.dimensions.eVar5.data.length - 1;
         var trPrices = jSon.event["com.adobe.mcloud.pipeline.pipelineMessage"]["com.adobe.mcloud.protocol.trigger"].enrichments.analyticsHitSummary.dimensions.eVar4.data[index];
         var trProducts = jSon.event["com.adobe.mcloud.pipeline.pipelineMessage"]["com.adobe.mcloud.protocol.trigger"].enrichments.analyticsHitSummary.dimensions.eVar5.data[index];
         var dcs_region = jSon.event["com.adobe.mcloud.pipeline.pipelineMessage"]["com.adobe.mcloud.protocol.trigger"].enrichments.analyticsHitSummary.dimensions.eVar8.data[index];
- 
- 
-        var url = 'http://adobeiosolutionsdemo.demdex.net/event?trProducts='+trProducts+'&trPrices='+trPrices+'&d_mid='+mcId+'&d_orgid=C74F69D7594880280A495D09@AdobeOrg&d_rtbd=json&d_jsonv=1&dcs_region='+dcs_region;
-        console.log("Calling AAM API with:"+url);
-        return new Promise(function(resolve, reject) {
-            request.get(url, function(error, response, body) {
+
+
+        var url = 'http://adobeiosolutionsdemo.demdex.net/event?trProducts=' + trProducts + '&trPrices=' + trPrices + '&d_mid=' + mcId + '&d_orgid=C74F69D7594880280A495D09@AdobeOrg&d_rtbd=json&d_jsonv=1&dcs_region=' + dcs_region;
+        console.log("Calling AAM API with:" + url);
+        return new Promise(function (resolve, reject) {
+            request.get(url, function (error, response, body) {
                 if (error) {
                     reject(error);
-                }
-                else {
-                    resolve({body: response});
+                } else {
+                    resolve({
+                        body: response
+                    });
                 }
             });
         });
-      }catch(e){
-        console.log("Error occured while calling the API",e);
-      }
- 
+    } catch (e) {
+        console.log("Error occured while calling the API", e);
     }
- 
+
+
+
 }
 ```
 
@@ -242,7 +232,7 @@ wsk action create aam webhook.js
 ```
  
 ```
-wsk action update aam --web raw
+wsk action update aam --web true
 ```
 
 
