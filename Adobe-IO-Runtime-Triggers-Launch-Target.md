@@ -167,13 +167,13 @@ In this solution, you can deploy the following script to handle Triggers I/O Eve
 ```
 function main(args) {
 
-    if (args.challenge) {
+    if (args.challenge)
         return {
             statusCode: 200,
             body: args.challenge
         };
 
-    }
+
 
 
     var jSon = args;
