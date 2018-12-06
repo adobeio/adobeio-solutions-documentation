@@ -193,7 +193,6 @@ function main(args) {
         trCoupon = "ADBETGT10OFF";
     }
 
-    console.log("webhook invoked with: " + body);
 
     var fs = require('fs');
     var request = require('request');
