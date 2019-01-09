@@ -202,11 +202,18 @@ function main(args) {
         var trProducts = jSon.event["com.adobe.mcloud.pipeline.pipelineMessage"]["com.adobe.mcloud.protocol.trigger"].enrichments.analyticsHitSummary.dimensions.eVar5.data[index];
         var dcs_region = jSon.event["com.adobe.mcloud.pipeline.pipelineMessage"]["com.adobe.mcloud.protocol.trigger"].enrichments.analyticsHitSummary.dimensions.eVar8.data[index];
 
+        var host = "adobeiosolutionsdemo";
 
-        var url = 'http://adobeiosolutionsdemo.demdex.net/event?trProducts=' + trProducts + '&trPrices=' + trPrices + '&d_mid=' + mcId + '&d_orgid=C74F69D7594880280A495D09@AdobeOrg&d_rtbd=json&d_jsonv=1&dcs_region=' + dcs_region;
+        if (dcs_region == 9) {
+            host = "usw2";
+        } else if (dcs_region == 7) {
+            host = "use";
+        }
+
+        var url = 'https://' + host + '.demdex.net/event?trProducts=' + trProducts + '&trPrices=' + trPrices + '&d_mid=' + mcId + '&d_orgid=C74F69D7594880280A495D09@AdobeOrg&d_rtbd=json&d_jsonv=1;
         console.log("Calling AAM API with:" + url);
-        return new Promise(function (resolve, reject) {
-            request.get(url, function (error, response, body) {
+        return new Promise(function(resolve, reject) {
+            request.get(url, function(error, response, body) {
                 if (error) {
                     reject(error);
                 } else {
