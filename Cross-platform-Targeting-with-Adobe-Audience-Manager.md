@@ -231,7 +231,7 @@ wsk action create aam webhook.js
 ```
  
 ```
-wsk action update aam --web raw
+wsk action update aam --web true
 ```
 
 
