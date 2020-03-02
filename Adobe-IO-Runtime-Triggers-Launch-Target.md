@@ -78,7 +78,7 @@ To set up Launch:
 
 1. For the **Adobe Analytics - Set Variables** action, click the **</> Open Editor** button at the bottom of the page and add the following custom script:
 
-   ```
+   ```js
    var cart=ContextHub.getItem("cart");
    var profile=ContextHub.getItem("profile");
 
@@ -164,7 +164,7 @@ Adobe I/O Runtime is a serverless platform that allows you to quickly deploy cus
 In this solution, you can deploy the following script to handle Triggers I/O Events and to provide updates to the visitor profile in **Customer Attributes** via Target Profile APIs.
 
 **webhook.js**
-```
+```js
 function main(args) {
 
     if (args.challenge)
