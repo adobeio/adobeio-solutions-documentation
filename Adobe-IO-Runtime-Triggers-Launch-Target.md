@@ -165,6 +165,9 @@ In this solution, you can deploy the following script to handle Triggers I/O Eve
 
 **webhook.js**
 ```js
+var fs = require('fs');
+var request = require('request');
+
 function main(args) {
 
     if (args.challenge)
@@ -172,9 +175,6 @@ function main(args) {
             statusCode: 200,
             body: args.challenge
         };
-
-
-
 
     var jSon = args;
     var mcId = jSon.event["com.adobe.mcloud.pipeline.pipelineMessage"]["com.adobe.mcloud.protocol.trigger"].mcId;
@@ -193,9 +193,6 @@ function main(args) {
         trCoupon = "ADBETGT10OFF";
     }
 
-
-    var fs = require('fs');
-    var request = require('request');
     var file = pcId + ".txt";
     var content = "batch=pcId,mcId,trProducts,trPrices,trLink,trThumb,trOffer,trCoupon\n" +
         pcId + "," + mcId + "," + trProducts + "," + trPrices + "," + trLink + "," + trThumb + "," + trOffer + "," + trCoupon;
